@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddPollActivity extends Activity {
 	private static final String TAG = "chat.AddPollActivity";
@@ -74,6 +75,9 @@ public class AddPollActivity extends Activity {
 				MakeCallToPollServer mkCall = new MakeCallToPollServer();
 				
 				mkCall.createPoll(mChatApplication.useGetChannelName(), mPollTitle.getText().toString(), pollOptions);
+				
+				Toast toast = Toast.makeText(getApplicationContext(), "Question posted", Toast.LENGTH_SHORT);
+				toast.show();
 			}
 		});
     }

@@ -26,7 +26,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:divider="#ff505050"
-        android:background="#ff202020"
+        android:background="#fff"
         android:dividerHeight="1dp"
         android:transcriptMode="alwaysScroll"
     />

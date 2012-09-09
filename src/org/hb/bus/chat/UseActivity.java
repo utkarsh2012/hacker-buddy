@@ -54,36 +54,7 @@ public class UseActivity extends Activity implements Observer {
         Log.i(TAG, "onCreate()");
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.use);
-                
-        mHistoryList = new ArrayAdapter<String>(this, android.R.layout.test_list_item);
-        ListView hlv = (ListView) findViewById(R.id.useHistoryList);
-        hlv.setAdapter(mHistoryList);
-        hlv.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Log.i(TAG, "arg2:"+arg2+" arg3:"+arg3);
-				Intent intent = new Intent().setClass(getApplicationContext(), PollActivity.class);
-				intent.putExtra("index", arg2);
-				startActivity(intent);
-			}
-        	
-        });
-       
-        EditText messageBox = (EditText)findViewById(R.id.useMessage);
-        messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
-                	String message = view.getText().toString();
-                    Log.i(TAG, "useMessage.onEditorAction(): got message " + message + ")");
-    	            mChatApplication.newLocalUserMessage(message);
-    	            view.setText("");
-                }
-                return true;
-            }
-        });
-                
+                                
         mJoinButton = (Button)findViewById(R.id.useJoin);
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -116,7 +87,7 @@ public class UseActivity extends Activity implements Observer {
          * just empty.
          */
         updateChannelState();
-        updateHistory();
+        //updateHistory();
         
         /*
          * Now that we're all ready to go, we are ready to accept notifications
@@ -188,16 +159,6 @@ public class UseActivity extends Activity implements Observer {
         }
     }
     
-    private void updateHistory() {
-        Log.i(TAG, "updateHistory()");
-	    mHistoryList.clear();
-	    List<String> messages = mChatApplication.getHistory();
-        for (String message : messages) {
-            mHistoryList.add(message);
-        }
-	    mHistoryList.notifyDataSetChanged();
-    }
-    
     private void updateChannelState() {
         Log.i(TAG, "updateHistory()");
     	AllJoynService.UseChannelState channelState = mChatApplication.useGetChannelState();
@@ -246,12 +207,6 @@ public class UseActivity extends Activity implements Observer {
 	                finish();
 	            }
 	            break; 
-            case HANDLE_HISTORY_CHANGED_EVENT:
-                {
-                    Log.i(TAG, "mHandler.handleMessage(): HANDLE_HISTORY_CHANGED_EVENT");
-                    updateHistory();
-                    break;
-                }
             case HANDLE_CHANNEL_STATE_CHANGED_EVENT:
 	            {
 	                Log.i(TAG, "mHandler.handleMessage(): HANDLE_CHANNEL_STATE_CHANGED_EVENT");
@@ -272,11 +227,8 @@ public class UseActivity extends Activity implements Observer {
     
     private ChatApplication mChatApplication = null;
     
-    private ArrayAdapter<String> mHistoryList;
-    
     private Button mJoinButton;
     private Button mLeaveButton;
-    private Button mAddPollButton;
     
     private TextView mChannelName;
       
