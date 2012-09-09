@@ -4,7 +4,7 @@
     <string name="app_name">HackerBuddy</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_poll">PollActivity</string>
-    <string name="title_activity_add_poll">Add Poll</string>
+    <string name="title_activity_poll">IdeaBox</string>
+    <string name="title_activity_add_poll">Ask a question</string>
 
 </resources>

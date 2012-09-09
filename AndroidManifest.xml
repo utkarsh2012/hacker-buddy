@@ -62,6 +62,8 @@
             android:name=".AddPollActivity"
             android:label="@string/title_activity_add_poll" >
         </activity>
+        <uses-library android:name="android.test.runner" />
     </application>
-
+    
+<instrumentation android:name="android.test.InstrumentationTestRunner" android:targetPackage="org.hb.bus.api" android:label="Tests for My App" />
 </manifest>

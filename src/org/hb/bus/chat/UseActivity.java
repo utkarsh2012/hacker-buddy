@@ -60,7 +60,6 @@ public class UseActivity extends Activity implements Observer {
         hlv.setAdapter(mHistoryList);
         hlv.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub

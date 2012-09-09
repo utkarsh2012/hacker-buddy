@@ -284,7 +284,7 @@ public class ChatApplication extends Application implements Observable {
 	/**
 	 * Set the name part of the "host" channel.  Since we are going to "use" a
 	 * channel that is implemented remotely and discovered through an AllJoyn
-	 * FoundAdvertisedName, this must come from a list of advertised names.
+	 * ÄvertisedName, this must come from a list of advertised names.
 	 * These names are our channels, and so we expect the GUI to choose from
 	 * among the list of channels it retrieves from getFoundChannels().
 	 * 

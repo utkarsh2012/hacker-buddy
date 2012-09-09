@@ -16,7 +16,10 @@
 
 package org.hb.bus.chat;
 
+import java.util.Iterator;
 import java.util.List;
+
+import org.hb.bus.api.MakeCallToPollServer;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,6 +27,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +41,7 @@ import android.widget.TextView;
 
 public class MessageActivity extends Activity implements Observer {
     private static final String TAG = "chat.UseActivity";
+    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
@@ -46,9 +51,9 @@ public class MessageActivity extends Activity implements Observer {
         mHistoryList = new ArrayAdapter<String>(this, android.R.layout.test_list_item);
         ListView hlv = (ListView) findViewById(R.id.messageHistoryList);
         hlv.setAdapter(mHistoryList);
+        /*
         hlv.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
@@ -58,6 +63,22 @@ public class MessageActivity extends Activity implements Observer {
 				startActivity(intent);
 			}
         	
+        });
+        */
+        
+        mPollList = new ArrayAdapter<String>(this, android.R.layout.test_list_item);
+        ListView hpv = (ListView) findViewById(R.id.messagePollList);
+        hpv.setAdapter(mPollList);
+        hpv.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "arg2:"+arg2+" poll:"+mPollList.getItem(arg2));
+				Intent intent = new Intent().setClass(getApplicationContext(), PollActivity.class);
+				intent.putExtra("poll", mPollList.getItem(arg2));
+				startActivity(intent);
+			}
         });
        
         EditText messageBox = (EditText)findViewById(R.id.messageMessage);
@@ -88,13 +109,19 @@ public class MessageActivity extends Activity implements Observer {
          * just empty.
          */
         updateHistory();
-        
+        getAllPolls();
         /*
          * Now that we're all ready to go, we are ready to accept notifications
          * from other components.
          */
         mChatApplication.addObserver(this);
 
+    }
+    
+    public void onResume() {
+    	updateHistory();
+    	getAllPolls();
+    	super.onResume();
     }
     
 	public void onDestroy() {
@@ -169,6 +196,21 @@ public class MessageActivity extends Activity implements Observer {
 	    mHistoryList.notifyDataSetChanged();
     }
     
+    private void getAllPolls() {
+    	StrictMode.setThreadPolicy(policy);
+    	MakeCallToPollServer mkServer = new MakeCallToPollServer();
+    	Log.i(TAG, "Host channel" + mChatApplication.useGetChannelName());
+    	List<String> polls = mkServer.getAllPollsForHackathon(mChatApplication.useGetChannelName());
+    	
+    	mPollList.clear();
+    	
+    	for (String poll : polls) {
+    		mPollList.add(poll);
+    	}
+    	
+    	mPollList.notifyDataSetChanged();
+    }
+    
     /**
      * An AllJoyn error has happened.  Since this activity pops up first we
      * handle the general errors.  We also handle our own errors.
@@ -215,4 +257,5 @@ public class MessageActivity extends Activity implements Observer {
     private ChatApplication mChatApplication = null;
     
     private ArrayAdapter<String> mHistoryList;
+    private ArrayAdapter<String> mPollList;
 }

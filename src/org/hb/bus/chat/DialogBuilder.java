@@ -16,13 +16,17 @@
 
 package org.hb.bus.chat;
 
+import java.util.List;
+
+import org.hb.bus.api.MakeCallToPollServer;
+
 import android.app.Activity;
 import android.app.Dialog;
-
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,14 +34,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import android.util.Log;
-
-import java.util.List;
-
-import org.hb.bus.chat.R;
-
 public class DialogBuilder {
     private static final String TAG = "chat.Dialogs";
+    
+    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); 
     
     public Dialog createUseJoinDialog(final Activity activity, final ChatApplication application) {
     	Log.i(TAG, "createUseJoinDialog()");
@@ -64,6 +64,7 @@ public class DialogBuilder {
     			String name = channelList.getItemAtPosition(position).toString();
 				application.useSetChannelName(name);
 				application.useJoinChannel();
+				
 				/*
 				 * Android likes to reuse dialogs for performance reasons.  If
 				 * we reuse this one, the list of channels will eventually be
@@ -140,6 +141,11 @@ public class DialogBuilder {
             	String name = channel.getText().toString();
 				application.hostSetChannelName(name);
 				application.hostInitChannel();
+				//To allow network io on main thread
+				StrictMode.setThreadPolicy(policy);
+				MakeCallToPollServer mkCall = new MakeCallToPollServer();
+				mkCall.createHackathon(name, "TechCrunchDisrupt2012");
+				
     			dialog.cancel();
             }
         });

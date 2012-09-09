@@ -1,8 +1,14 @@
 package org.hb.bus.chat;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hb.bus.api.MakeCallToPollServer;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,13 +25,22 @@ import android.widget.TextView;
 public class AddPollActivity extends Activity {
 	private static final String TAG = "chat.AddPollActivity";
     
+	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); 
+	
+	List<String> pollOptions = new ArrayList<String>();
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_poll);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         
+        mChatApplication = (ChatApplication)getApplication();
+        mChatApplication.checkin();
+        
         mRadioGroup = (RadioGroup)findViewById(R.id.addPollRadioGroup);
+        
+        mPollTitle = (EditText)findViewById(R.id.addPollTitle);
         
         mAddItemTextBox = (EditText)findViewById(R.id.addPollItem);
         mAddItemTextBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -41,6 +56,8 @@ public class AddPollActivity extends Activity {
                     rb.setText(message);
                     mRadioGroup.addView(rb);
                     
+                    pollOptions.add(message);
+                    
     	            view.setText("");
                 }
                 return true;
@@ -50,10 +67,13 @@ public class AddPollActivity extends Activity {
         mSubmitButton = (Button)findViewById(R.id.addPollSubmitButton);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//Add a call to rest api for posting the poll
+				StrictMode.setThreadPolicy(policy);
+				MakeCallToPollServer mkCall = new MakeCallToPollServer();
+				
+				mkCall.createPoll(mChatApplication.useGetChannelName(), mPollTitle.getText().toString(), pollOptions);
 			}
 		});
     }
@@ -76,6 +96,9 @@ public class AddPollActivity extends Activity {
     }
 
     private RadioGroup mRadioGroup;
+    private EditText mPollTitle;
     private EditText mAddItemTextBox;
     private Button mSubmitButton;
+    
+    private ChatApplication mChatApplication;
 }
