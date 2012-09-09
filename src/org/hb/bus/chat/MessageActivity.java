@@ -16,47 +16,35 @@
 
 package org.hb.bus.chat;
 
-import org.hb.bus.chat.R;
-import org.hb.bus.chat.ChatApplication;
-import org.hb.bus.chat.DialogBuilder;
-import org.hb.bus.chat.Observable;
-import org.hb.bus.chat.Observer;
-import org.hb.bus.chat.PollActivity;
-
-import android.os.Handler;
-import android.os.Message;
-import android.os.Bundle;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import android.util.Log;
-
-import java.util.List;
-
-public class UseActivity extends Activity implements Observer {
+public class MessageActivity extends Activity implements Observer {
     private static final String TAG = "chat.UseActivity";
     
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.use);
+        setContentView(R.layout.message);
                 
         mHistoryList = new ArrayAdapter<String>(this, android.R.layout.test_list_item);
-        ListView hlv = (ListView) findViewById(R.id.useHistoryList);
+        ListView hlv = (ListView) findViewById(R.id.messageHistoryList);
         hlv.setAdapter(mHistoryList);
         hlv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -72,7 +60,7 @@ public class UseActivity extends Activity implements Observer {
         	
         });
        
-        EditText messageBox = (EditText)findViewById(R.id.useMessage);
+        EditText messageBox = (EditText)findViewById(R.id.messageMessage);
         messageBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
@@ -84,23 +72,6 @@ public class UseActivity extends Activity implements Observer {
                 return true;
             }
         });
-                
-        mJoinButton = (Button)findViewById(R.id.useJoin);
-        mJoinButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showDialog(DIALOG_JOIN_ID);
-        	}
-        });
-
-        mLeaveButton = (Button)findViewById(R.id.useLeave);
-        mLeaveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showDialog(DIALOG_LEAVE_ID);
-            }
-        });
-        
-        mChannelName = (TextView)findViewById(R.id.useChannelName);
-        mChannelStatus = (TextView)findViewById(R.id.useChannelStatus);
         
         /*
          * Keep a pointer to the Android Appliation class around.  We use this
@@ -116,7 +87,6 @@ public class UseActivity extends Activity implements Observer {
          * outlives its Activities, this may actually be a lot of state and not
          * just empty.
          */
-        updateChannelState();
         updateHistory();
         
         /*
@@ -199,29 +169,6 @@ public class UseActivity extends Activity implements Observer {
 	    mHistoryList.notifyDataSetChanged();
     }
     
-    private void updateChannelState() {
-        Log.i(TAG, "updateHistory()");
-    	AllJoynService.UseChannelState channelState = mChatApplication.useGetChannelState();
-    	String name = mChatApplication.useGetChannelName();
-    	if (name == null) {
-    		name = "Not set";
-    	}
-        mChannelName.setText(name);
-        
-        switch (channelState) {
-        case IDLE:
-            mChannelStatus.setText("Idle");
-            mJoinButton.setEnabled(true);
-            mLeaveButton.setEnabled(false);
-            break;
-        case JOINED:
-            mChannelStatus.setText("Joined");
-            mJoinButton.setEnabled(false);
-            mLeaveButton.setEnabled(true);
-            break;	
-        }
-    }
-    
     /**
      * An AllJoyn error has happened.  Since this activity pops up first we
      * handle the general errors.  We also handle our own errors.
@@ -253,12 +200,6 @@ public class UseActivity extends Activity implements Observer {
                     updateHistory();
                     break;
                 }
-            case HANDLE_CHANNEL_STATE_CHANGED_EVENT:
-	            {
-	                Log.i(TAG, "mHandler.handleMessage(): HANDLE_CHANNEL_STATE_CHANGED_EVENT");
-	                updateChannelState();
-	                break;
-	            }
             case HANDLE_ALLJOYN_ERROR_EVENT:
 	            {
 	                Log.i(TAG, "mHandler.handleMessage(): HANDLE_ALLJOYN_ERROR_EVENT");
@@ -274,12 +215,4 @@ public class UseActivity extends Activity implements Observer {
     private ChatApplication mChatApplication = null;
     
     private ArrayAdapter<String> mHistoryList;
-    
-    private Button mJoinButton;
-    private Button mLeaveButton;
-    private Button mAddPollButton;
-    
-    private TextView mChannelName;
-      
-    private TextView mChannelStatus;
 }

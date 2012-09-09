@@ -16,26 +16,17 @@
 
 package org.hb.bus.chat;
 
-import org.hb.bus.chat.AllJoynService;
-import org.hb.bus.chat.Observable;
-import org.hb.bus.chat.Observer;
-import org.hb.bus.chat.AllJoynService.UseChannelState;
-
-import android.app.Application;
-
-import android.content.ComponentName;
-import android.content.Intent;
-
-import android.util.Log;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import java.util.Date;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import android.app.Application;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.util.Log;
 
 /**
  * The ChatAppliation class serves as the Model (in the sense of the common
@@ -668,9 +659,4 @@ public class ChatApplication extends Application implements Observable {
 	 * us as observers in order to get notifications of interesting events.
 	 */
 	private List<Observer> mObservers = new ArrayList<Observer>();
-	/**
-	 * The outbound list is the list of all messages that have been originated
-	 * by our local user and are designed for the outside world.
-	 */
-	private List<String> mOutbound = new ArrayList<String>();
 }

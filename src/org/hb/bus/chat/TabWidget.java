@@ -16,18 +16,12 @@
 
 package org.hb.bus.chat;
 
-import org.hb.bus.chat.R;
-
-import android.os.Bundle;
-
 import android.app.TabActivity;
-
-import android.widget.TabHost;
-
 import android.content.Intent;
 import android.content.res.Resources;
-
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.TabHost;
 
 public class TabWidget extends TabActivity {
     private static final String TAG = "chat.TabWidget";
@@ -41,12 +35,20 @@ public class TabWidget extends TabActivity {
         TabHost.TabSpec spec;
         Intent intent;
 
+        intent = new Intent().setClass(this, MessageActivity.class);
+        spec = tabHost.newTabSpec("message").setIndicator("", res.getDrawable(R.drawable.ic_tab_use)).setContent(intent);
+        tabHost.addTab(spec);
+        
         intent = new Intent().setClass(this, UseActivity.class);
-        spec = tabHost.newTabSpec("use").setIndicator("", res.getDrawable(R.drawable.ic_tab_use)).setContent(intent);
+        spec = tabHost.newTabSpec("use").setIndicator("", res.getDrawable(R.drawable.ic_tab_channel)).setContent(intent);
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, HostActivity.class);
         spec = tabHost.newTabSpec("host").setIndicator("", res.getDrawable(R.drawable.ic_tab_host)).setContent(intent);
+        tabHost.addTab(spec);
+        
+        intent = new Intent().setClass(this, AddPollActivity.class);
+        spec = tabHost.newTabSpec("poll").setIndicator("", res.getDrawable(R.drawable.ic_tab_poll)).setContent(intent);
         tabHost.addTab(spec);
 
         tabHost.setCurrentTab(0);

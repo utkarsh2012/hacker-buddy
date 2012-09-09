@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/addPollTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="Poll title"
+        android:inputType="textMultiLine"
+        android:lines="5" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/addPollItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addPollTitle"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:hint="Add poll option"
+        android:imeOptions="actionDone"
+        android:inputType="text" />
+
+    <RadioGroup
+        android:id="@+id/addPollRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addPollSubmitButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addPollItem"
+        android:layout_marginTop="20dp" >
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/addPollSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="Submit" />
+
+</RelativeLayout>

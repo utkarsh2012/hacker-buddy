@@ -40,18 +40,23 @@
         android:layout_marginTop="5dp">
         
         <Button
-            android:id="@+id/useJoin"        
-            android:layout_width="120dp"
+            android:id="@+id/useJoin"
+            android:layout_width="107dp"
             android:layout_height="wrap_content"
-    	    android:text="Join Channel"
-        />
+            android:text="Join Channel" />
         
         <Button
             android:id="@+id/useLeave"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-    	    android:text="Leave Channel"
-        />
+            android:text="Leave Channel" />
+
+        <Button
+            android:id="@+id/useAddPoll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Add Poll" />
+
     </LinearLayout>
     
     <EditText
@@ -62,14 +67,15 @@
 		android:hint="Enter message here"
     />
        
-    <ListView 
-        android:id="@+id/useHistoryList"           
+    <ListView
+        android:id="@+id/useHistoryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:background="#fff"
         android:divider="#ff505050"
-        android:background="#ff202020"
         android:dividerHeight="1dp"
-        android:transcriptMode="alwaysScroll"
-    />
+        android:drawSelectorOnTop="true"
+        android:transcriptMode="alwaysScroll" />
+
 </LinearLayout>

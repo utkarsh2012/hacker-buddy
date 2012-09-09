@@ -4,11 +4,44 @@
     android:layout_height="match_parent" >
 
     <TextView
+        android:id="@+id/pollTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".PollActivity" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:lines="4"
+        android:text="Poll title" />
+
+    <Button
+        android:id="@+id/pollButtonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="71dp"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/pollButtonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/pollButtonCancel"
+        android:layout_alignBottom="@+id/pollButtonCancel"
+        android:layout_toRightOf="@+id/pollButtonCancel"
+        android:text="Submit" />
+
+    <RadioGroup
+        android:id="@+id/pollItemRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/pollTitle"
+        android:layout_marginTop="37dp" >
+
+        
+    </RadioGroup>
 
 </RelativeLayout>

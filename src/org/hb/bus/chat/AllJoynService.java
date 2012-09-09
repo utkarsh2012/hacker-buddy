@@ -50,7 +50,6 @@ import android.content.Intent;
 
 import android.util.Log;
 
-@TargetApi(5)
 public class AllJoynService extends Service implements Observer {
 	private static final String TAG = "chat.AllJoynService";
 
